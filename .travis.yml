@@ -1,0 +1,16 @@
+language: shell
+
+jobs:
+  include:
+    - os: linux
+    - os: osx
+    - os: windows
+
+script:
+  - pip install numba
+  - numba -s
+  - pip install icc-rt
+  - numba -s
+  - python -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.so")'
+  - python -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
+  - python -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dylib")'
