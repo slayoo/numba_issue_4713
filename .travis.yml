@@ -3,19 +3,19 @@ jobs:
     - os: linux
       language: python
       python: "3.7"
-      before_install: export EXT="so"
+      script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.so")'
     - os: osx
       language: shell
-      before_install: export EXT="dylib" PY_SFX=3
+      before_install: export PY_SFX=3
+      script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dylib")'
     - os: windows
       language: shell
-      before_install: export EXT="dll"
       install: choco install python --version 3.7
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+      script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
 
-script:
+install:
   - pip$PY_SFX install numba
   - numba -s
-  - pip3 install icc-rt
+  - pip$PY_SFX install icc-rt
   - numba -s
-  - python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.$EXT")'
