@@ -1,16 +1,20 @@
-language: shell
-
 jobs:
   include:
     - os: linux
+      language: python
+      python: "3.7"
     - os: osx
+      language: shell
     - os: windows
+      language: shell
+      before_install: choco install python --version 3.7
+      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
 script:
-  - pip install numba
+  - pip3 install numba
   - numba -s
-  - pip install icc-rt
+  - pip3 install icc-rt
   - numba -s
-  - python -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.so")'
-  - python -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
-  - python -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dylib")'
+  - python3 -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.so")'
+  - python3 -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
+  - python3 -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dylib")'
