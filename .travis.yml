@@ -10,7 +10,7 @@ jobs:
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dylib")'
     - os: windows
       language: shell
-      install: choco install python --version 3.7
+      before_install: choco install python --version 3.7
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
 
