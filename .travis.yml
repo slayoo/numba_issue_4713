@@ -4,6 +4,7 @@ jobs:
       language: python
       python: "3.7"
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.so")'
+      env: SUDO=sudo
     - os: osx
       language: shell
       before_install: export PY_SFX=3
@@ -15,8 +16,8 @@ jobs:
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
 
 install:
-  - pip$PY_SFX install numba
+  - $SUDO pip$PY_SFX install numba
   - numba -s
-  - pip$PY_SFX install icc-rt
+  - $SUDO pip$PY_SFX install icc-rt
   - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo ldconfig; fi 
   - numba -s
