@@ -18,4 +18,5 @@ install:
   - pip$PY_SFX install numba
   - numba -s
   - pip$PY_SFX install icc-rt
+  - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo ldconfig; fi 
   - numba -s
