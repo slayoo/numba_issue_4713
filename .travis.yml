@@ -4,20 +4,20 @@ jobs:
       language: python
       python: "3.7"
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.so")'
-      before_install: export SUDO=sudo PY_SFX=3
+      before_install: export PIP="sudo python3 -m pip"
     - os: osx
       language: shell
-      before_install: export PY_SFX=3
+      before_install: export PY_SFX=3 PIP=pip3
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dylib")'
     - os: windows
       language: shell
       before_install: choco install python --version 3.7
-      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH PIP=pip
       script: python$PY_SFX -c 'from llvmlite import binding; binding.load_library_permanently("libsvml.dll")'
 
 install:
-  - $SUDO pip$PY_SFX install numba
+  - $PIP install numba
   - numba -s
-  - $SUDO pip$PY_SFX install icc-rt
+  - $PIP install icc-rt
   - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo ldconfig; fi 
   - numba -s
